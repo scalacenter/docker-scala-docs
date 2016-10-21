@@ -7,7 +7,10 @@ ENV PATH $PATH:$SBT_HOME/bin
 RUN apk add --no-cache bash \
   && apk add --no-cache --virtual=build-dependencies wget ca-certificates \
   && apk add --no-cache git \
-  && cd /usr/lib \
-  && wget -q --no-cookies https://dl.bintray.com/sbt/native-packages/sbt/0.13.12/sbt-0.13.12.tgz -O - | gunzip | tar x \
+  && apk add --no-cache curl \
+  && mkdir /usr/lib/bin \
+  && curl -s https://raw.githubusercontent.com/paulp/sbt-extras/master/sbt > /usr/lib/bin/sbt \
+  && chmod 0755 /usr/lib/bin/sbt \
+  && /usr/lib/bin/sbt about -sbt-create \
   && apk del build-dependencies \
   && rm -rf /tmp/*
