@@ -11,6 +11,7 @@ RUN apk add --no-cache bash \
   && mkdir /usr/lib/bin \
   && curl -s https://raw.githubusercontent.com/paulp/sbt-extras/master/sbt > /usr/lib/bin/sbt \
   && chmod 0755 /usr/lib/bin/sbt \
-  && /usr/lib/bin/sbt about -sbt-create \
+  && mv /usr/lib/bin/sbt /usr/bin/sbt \
+  && /usr/bin/sbt about -sbt-create \
   && apk del build-dependencies \
   && rm -rf /tmp/*
