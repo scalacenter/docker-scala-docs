@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+
+SCRIPTS_DIR="/usr/local/bin"
+if [[ "$CI" == "true" ]]; then
+  # Only for Drone CI
+  export DRONE_DIR="/drone"
+else
+  # Don't set up the environment, run sbt and exit
+  export DRONE_DIR="/platform"
+  test -d "$DRONE_DIR" \
+    || echo "Warning: $DRONE_DIR does not exist. Bypassing platform setup." 1>&2 \
+    && /usr/bin/sbt $@
+  exit 0
+fi
+
+WITNESS="$DRONE_DIR/.setup"
+if [[ ! -e "$WITNESS" ]]; then
+  # Necessary to have access to the environment variables
+  source "$SCRIPTS_DIR/store_credentials.sh"
+  source "$SCRIPTS_DIR/setup_keys.sh"
+  source "$SCRIPTS_DIR/setup_git_and_sbt.sh"
+  source "$SCRIPTS_DIR/setup_cache.sh"
+  touch $WITNESS \
+    && /usr/bin/sbt $@
+else 
+  source "$SCRIPTS_DIR/setup_cache.sh"
+  /usr/bin/sbt $@
+fi

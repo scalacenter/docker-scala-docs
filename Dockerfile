@@ -4,9 +4,14 @@ FROM joshdev/alpine-oraclejdk8:8u102
 ENV SBT_HOME /usr/lib/sbt
 ENV PATH $PATH:$SBT_HOME/bin
 
+# Add all scripts in image
+COPY bin /usr/local/bin
+COPY sbt.boot $HOME/
+
 RUN apk add --no-cache bash \
   && apk add --no-cache --virtual=build-dependencies wget ca-certificates \
   && apk add --no-cache git \
+  && apk add --no-cache openssh \
   && apk add --no-cache curl \
   && apk add --no-cache ruby ruby-bundler ruby-dev ruby-irb ruby-rdoc libatomic readline readline-dev \
     libxml2 libxml2-dev libxslt libxslt-dev zlib-dev zlib libffi-dev build-base nodejs \
