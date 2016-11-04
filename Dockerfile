@@ -6,7 +6,7 @@ ENV PATH $PATH:$SBT_HOME/bin
 
 # Add all scripts in image
 COPY bin /usr/local/bin
-COPY sbt.boot $HOME/
+COPY sbt.boot /sbt.boot
 
 RUN apk add --no-cache bash \
   && apk add --no-cache --virtual=build-dependencies wget ca-certificates \

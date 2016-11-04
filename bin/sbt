@@ -21,8 +21,8 @@ if [[ ! -e "$WITNESS" ]]; then
   source "$SCRIPTS_DIR/setup_git_and_sbt.sh"
   source "$SCRIPTS_DIR/setup_cache.sh"
   touch $WITNESS \
-    && /usr/bin/sbt $@
+    && /usr/bin/sbt $@ -Dsbt.boot.properties=/sbt.boot
 else 
   source "$SCRIPTS_DIR/setup_cache.sh"
-  /usr/bin/sbt $@
+  /usr/bin/sbt $@ -Dsbt.boot.properties=/sbt.boot
 fi
