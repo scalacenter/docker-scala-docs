@@ -7,5 +7,5 @@ plus [SBT extras](https://github.com/paulp/sbt-extras),
 [git](http://www.scala-sbt.org/download.html), [openssh](https://www.openssh.com/) and
 [Jekyll](https://jekyllrb.com/).
 
-It's also bundled with some scripts that are meant to be used by our [Drone
-CI](https://platform-ci.scala-lang.org).
+It's also bundled with some scripts that are meant to be used by [Scala
+Platform's Drone CI](https://platform-ci.scala-lang.org).
