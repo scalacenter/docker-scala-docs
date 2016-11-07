@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 SCRIPTS_DIR="/usr/local/bin"
-if [[ "$CI" == "true" ]]; then
+if [[ "$DRONE" == "true" ]]; then
   # Only for Drone CI
   export DRONE_DIR="/drone"
 else
@@ -9,7 +9,7 @@ else
   export DRONE_DIR="/platform"
   test -d "$DRONE_DIR" \
     || echo "Warning: $DRONE_DIR does not exist. Bypassing platform setup." 1>&2 \
-    && /usr/bin/sbt $@
+    && /usr/bin/sbt $@ || exit 1
   exit 0
 fi
 
