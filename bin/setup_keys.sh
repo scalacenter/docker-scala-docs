@@ -23,6 +23,7 @@ if [[ -d $KEYS_DIR ]]; then
     if [[ ! -e "$SSH_DIR/$SSH_FILENAME" ]]; then
       echo "Copying $SSH_KEY to $SSH_DIR."
       cp $SSH_KEY $SSH_DIR
+      cp $SSH_KEY "$HOME/.ssh"
     fi
   done
 
