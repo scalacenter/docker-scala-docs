@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -eux
+
 SCRIPTS_DIR="/usr/local/bin"
 if [[ "$DRONE" == "true" ]]; then
   # Only for Drone CI
@@ -9,7 +11,7 @@ else
   export DRONE_DIR="/platform"
   test -d "$DRONE_DIR" \
     || echo "Warning: $DRONE_DIR does not exist. Bypassing platform setup." 1>&2 \
-    && /usr/bin/sbt $@ || exit 1
+    && /usr/bin/sbt0 "$@" || exit 1
   exit 0
 fi
 
@@ -21,8 +23,8 @@ if [[ ! -e "$WITNESS" ]]; then
   source "$SCRIPTS_DIR/setup_git_and_sbt.sh"
   source "$SCRIPTS_DIR/setup_cache.sh"
   touch $WITNESS \
-    && /usr/bin/sbt $@ -Dsbt.boot.properties=/sbt.boot
+    && /usr/lib/bin/sbt "$@" -Dsbt.boot.properties=/sbt.boot
 else 
   source "$SCRIPTS_DIR/setup_cache.sh"
-  /usr/bin/sbt $@ -Dsbt.boot.properties=/sbt.boot
+  /usr/lib/bin/sbt "$@" -Dsbt.boot.properties=/sbt.boot
 fi
