@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -eux
+set -eu
 
 BINTRAY_FOLDER="$HOME/.bintray"
 CREDENTIALS_FILE="$BINTRAY_FOLDER/.credentials"

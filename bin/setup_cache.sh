@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -eux
+set -eu
 
 export IVY_CACHE="$HOME/.ivy2"
 test -d "$IVY_CACHE" || \

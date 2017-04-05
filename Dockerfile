@@ -67,6 +67,7 @@ RUN cd /root/dotty; $UNDERLYING_SBT run -Dsbt.boot.properties=/sbt.boot
 
 RUN git clone https://github.com/olafurpg/warm-sbt
 RUN cd warm-sbt && git checkout v0.1.0 && $UNDERLYING_SBT "++run" -Dsbt.boot.properties=/sbt.boot && cd .. && rm -rf warm-sbt
+RUN mv /root/.sbt/* /drone/.sbt
 
 # Remove dependencies
 RUN apk del build-dependencies

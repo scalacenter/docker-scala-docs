@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -eux
+set -eu
 
 KEYS_DIR="/keys"
 GPG_DIR="$DRONE_DIR/.gnupg"

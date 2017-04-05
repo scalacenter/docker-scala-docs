@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -eux
+set -eu
 
 SCRIPTS_DIR="/usr/local/bin"
 if [[ "$DRONE" == "true" ]]; then
@@ -11,7 +11,7 @@ else
   export DRONE_DIR="/platform"
   test -d "$DRONE_DIR" \
     || echo "Warning: $DRONE_DIR does not exist. Bypassing platform setup." 1>&2 \
-    && /usr/bin/sbt0 "$@" || exit 1
+    && /usr/lib/bin/sbt "$@" -Dsbt.boot.properties=/sbt.boot || exit 1
   exit 0
 fi
 
