@@ -5,7 +5,7 @@ BINTRAY_FOLDER="$HOME/.bintray"
 CREDENTIALS_FILE="$BINTRAY_FOLDER/.credentials"
 
 create_bintray_file() {
-  mkdir "$BINTRAY_FOLDER"
+  mkdir -p "$BINTRAY_FOLDER"
 cat <<EOF >> "$CREDENTIALS_FILE"
 realm = Bintray API Realm
 host = api.bintray.com

@@ -3,10 +3,6 @@ FROM joshdev/alpine-oraclejdk8:8u102
 # Set environment
 ENV UNDERLYING_SBT /usr/lib/bin/sbt
 
-# Add all scripts in image
-COPY bin /usr/local/bin
-COPY sbt.boot /sbt.boot
-
 # Install packages
 RUN apk add --no-cache bash
 RUN apk add --no-cache --virtual=build-dependencies wget ca-certificates
@@ -26,6 +22,10 @@ RUN gem install jekyll
 RUN mkdir /usr/lib/bin
 RUN curl -s https://raw.githubusercontent.com/paulp/sbt-extras/master/sbt > /usr/lib/bin/sbt
 RUN chmod 0755 /usr/lib/bin/sbt
+
+# Add all scripts in image
+COPY bin /usr/local/bin
+COPY sbt.boot /sbt.boot
 
 # Copy our custom sbt to the default location, replace previous
 RUN mv /usr/local/bin/sbt /usr/bin/sbt
