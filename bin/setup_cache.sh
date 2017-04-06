@@ -12,6 +12,5 @@ export COURSIER_CACHE="$HOME/.coursier"
 mkdir -p "$DRONE_DIR/.coursier"
 test -d "$COURSIER_CACHE" || \
   test -h "$COURSIER_CACHE" || \
-  mkdir "$DRONE_DIR/.coursier" || \
   (ln -s "$DRONE_DIR/.coursier" "$COURSIER_CACHE"  && \
   echo "Coursier cache context has been set up: $COURSIER_CACHE.")
