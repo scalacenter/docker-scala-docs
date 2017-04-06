@@ -10,6 +10,7 @@ else
   # Don't set up the environment, run sbt and exit
   export DRONE_DIR="/platform"
   mkdir -p "$DRONE_DIR"
+  source "$SCRIPTS_DIR/setup_cache.sh"
   test -d "$DRONE_DIR" \
     && /usr/lib/bin/sbt "$@" -Dsbt.boot.properties=/sbt.boot \
     || exit 1
@@ -20,9 +21,9 @@ set -eu
 
 WITNESS="$DRONE_DIR/.setup"
 if [[ ! -e "$WITNESS" ]]; then
-  # store credentials is disabled in scala-extras
+  # store credentials and keys is disabled in scala-extras
   # source "$SCRIPTS_DIR/store_credentials.sh"
-  source "$SCRIPTS_DIR/setup_keys.sh"
+  # source "$SCRIPTS_DIR/setup_keys.sh"
   source "$SCRIPTS_DIR/setup_git_and_sbt.sh"
   source "$SCRIPTS_DIR/setup_cache.sh"
   touch $WITNESS \
