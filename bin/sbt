@@ -3,7 +3,7 @@
 set -e
 
 SCRIPTS_DIR="/usr/local/bin"
-if [[ "$DRONE" == "true" ]]; then
+if [[ "$DRONE" == "true" || "$DRONE" == "TRUE" ]]; then
   # Only for Drone CI
   export DRONE_DIR="/drone"
 else

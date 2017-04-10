@@ -31,6 +31,10 @@ COPY sbt.boot /sbt.boot
 RUN mv /usr/local/bin/sbt /usr/bin/sbt
 RUN $UNDERLYING_SBT about -sbt-create -Dsbt.boot.properties=/sbt.boot
 
+# Remove dependencies
+RUN apk del build-dependencies
+RUN apk del build-base zlib-dev ruby-dev readline-dev libffi-dev libxml2-dev
+
 # Set up and warm sbt
 RUN mkdir /root/scala-212
 RUN mkdir /root/scala-212/project
@@ -68,8 +72,6 @@ RUN cd /root/dotty; $UNDERLYING_SBT run -Dsbt.boot.properties=/sbt.boot
 RUN git clone https://github.com/olafurpg/warm-sbt
 RUN cd warm-sbt && git checkout v0.1.0 && $UNDERLYING_SBT "++run" -Dsbt.boot.properties=/sbt.boot && cd .. && rm -rf warm-sbt
 RUN mv /root/.sbt/* /drone/.sbt
+RUN rm -rf /root/.sbt
 
-# Remove dependencies
-RUN apk del build-dependencies
-RUN apk del build-base zlib-dev ruby-dev readline-dev libffi-dev libxml2-dev
 RUN rm -rf /tmp/*
