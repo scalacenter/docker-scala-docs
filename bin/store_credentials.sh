@@ -1,4 +1,12 @@
 #!/usr/bin/env bash
+
+set +u
+
+if [[ -z "$DRONE_PULL_REQUEST" ]]; then
+  BINTRAY_USERNAME="CI_MOCKUP_PULL_REQUEST"
+  BINTRAY_PASSWORD="fake password"
+fi
+
 set -eu
 
 BINTRAY_FOLDER="$HOME/.bintray"
