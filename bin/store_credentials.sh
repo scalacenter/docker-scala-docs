@@ -3,6 +3,8 @@
 set +u
 
 if [[ -z "$BINTRAY_USERNAME" && -z "$BINTRAY_PASSWORD" ]]; then
+  echo "Skipped creation of bintray credentials file. Missing \$BINTRAY_USERNAME and \$BINTRAY_PASSWORD."
+else
   set -eu
 
   BINTRAY_FOLDER="$HOME/.bintray"
@@ -21,8 +23,4 @@ EOF
 
   ([[ -e "CREDENTIALS_FILE" ]] && echo "Skipped creation of bintray credentials. $CREDENTIALS_FILE exists.") \
     || create_bintray_file
-
-else
-  echo "Skipped creation of bintray credentials file. Missing \$BINTRAY_USERNAME and \$BINTRAY_PASSWORD."
 fi
-
