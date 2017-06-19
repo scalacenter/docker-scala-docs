@@ -2,8 +2,8 @@
 
 set +u
 
-if [[ -z "$BINTRAY_USERNAME" && -z "$BINTRAY_PASSWORD" ]]; then
-  echo "Skipped creation of bintray credentials file. Missing \$BINTRAY_USERNAME and \$BINTRAY_PASSWORD."
+if [[ -z "$BINTRAY_USERNAME" || -z "$BINTRAY_PASSWORD" ]]; then
+  echo "Skipped creation of bintray credentials file. Missing \$BINTRAY_USERNAME or \$BINTRAY_PASSWORD or both."
 else
   set -eu
 
