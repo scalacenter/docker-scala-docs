@@ -9,8 +9,8 @@ RUN apk add --no-cache --virtual=build-dependencies wget ca-certificates \
   && cd /usr/lib/jvm
 
 # Install JDK8 as the default JDK
-RUN wget -q --no-cookies --header "Cookie: oraclelicense=accept-securebackup-cookie" http://download.oracle.com/otn-pub/java/jdk/8u102-b14/jdk-8u102-linux-x64.tar.gz -O - | gunzip | tar x \
-    && ln -s /usr/lib/jvm/jdk1.8.0_102 /usr/lib/jvm/jdk8
+RUN wget -q --no-cookies --header "Cookie: oraclelicense=accept-securebackup-cookie" http://download.oracle.com/otn-pub/java/jdk/8u151-b14/jdk-8u151-linux-x64.tar.gz -O - | gunzip | tar x \
+    && ln -s /usr/lib/jvm/jdk1.8.0_151 /usr/lib/jvm/jdk8
 
 # Install JDK7 as an optional JDK
 RUN wget -q --no-cookies --header "Cookie: oraclelicense=accept-securebackup-cookie" http://download.oracle.com/otn-pub/java/jdk/7u80-b15/jdk-7u80-linux-x64.tar.gz -O - | gunzip | tar x \
