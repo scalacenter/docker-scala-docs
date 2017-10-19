@@ -9,12 +9,16 @@ RUN apk add --no-cache --virtual=build-dependencies wget ca-certificates \
   && cd /usr/lib/jvm
 
 # Install JDK8 as the default JDK
-RUN wget -q --no-cookies --header "Cookie: oraclelicense=accept-securebackup-cookie" http://download.oracle.com/otn-pub/java/jdk/8u151-b14/jdk-8u151-linux-x64.tar.gz -O - | gunzip | tar x \
+RUN wget --no-check-certificate -c --header "Cookie: oraclelicense=accept-securebackup-cookie" http://download.oracle.com/otn-pub/java/jdk/8u151-b12/e758a0de34e24606bca991d704f6dcbf/jdk-8u151-linux-x64.tar.gz | gunzip | tar x \
     && ln -s /usr/lib/jvm/jdk1.8.0_151 /usr/lib/jvm/jdk8
 
 # Install JDK7 as an optional JDK
-RUN wget -q --no-cookies --header "Cookie: oraclelicense=accept-securebackup-cookie" http://download.oracle.com/otn-pub/java/jdk/7u80-b15/jdk-7u80-linux-x64.tar.gz -O - | gunzip | tar x \
+RUN wget --no-check-certificate --no-cookies --header "Cookie: oraclelicense=accept-securebackup-cookie" http://download.oracle.com/otn-pub/java/jdk/7u79-b15/jdk-7u79-linux-x64.tar.gz | gunzip | tar x \
     && ln -s /usr/lib/jvm/jdk1.7.0_80 /usr/lib/jvm/jdk7
+
+# Install JDK9 as an optional JDK
+RUN wget http://download.java.net/java/GA/jdk9/9/binaries/jdk-9+181_linux-x64_bin.tar.gz | gunzip | tar x \
+    && ln -s /usr/lib/jvm/jdk1.9.0_1 /usr/lib/jvm/jdk9
 
 # Set environment
 ENV UNDERLYING_SBT /usr/lib/bin/sbt
