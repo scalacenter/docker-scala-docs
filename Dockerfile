@@ -1,16 +1,20 @@
 FROM frolvlad/alpine-glibc:alpine-3.4
 
 # Set environment
-ENV JAVA_HOME /usr/lib/jvm/jdk
+ENV JAVA_HOME /usr/lib/jvm/jdk8
 ENV PATH $PATH:$JAVA_HOME/bin
 
 RUN apk add --no-cache --virtual=build-dependencies wget ca-certificates \
   && mkdir /usr/lib/jvm \
-  && cd /usr/lib/jvm \
-  && wget -q --no-cookies --header "Cookie: oraclelicense=accept-securebackup-cookie" http://download.oracle.com/otn-pub/java/jdk/8u102-b14/jdk-8u102-linux-x64.tar.gz -O - | gunzip | tar x \
-  && ln -s /usr/lib/jvm/jdk1.8.0_102 /usr/lib/jvm/jdk \
-  && apk del build-dependencies \
-&& rm -rf /tmp/*
+  && cd /usr/lib/jvm
+
+# Install JDK8 as the default JDK
+RUN wget -q --no-cookies --header "Cookie: oraclelicense=accept-securebackup-cookie" http://download.oracle.com/otn-pub/java/jdk/8u102-b14/jdk-8u102-linux-x64.tar.gz -O - | gunzip | tar x \
+    && ln -s /usr/lib/jvm/jdk1.8.0_102 /usr/lib/jvm/jdk8
+
+# Install JDK7 as an optional JDK
+RUN wget -q --no-cookies --header "Cookie: oraclelicense=accept-securebackup-cookie" http://download.oracle.com/otn-pub/java/jdk/7u80-b15/jdk-7u80-linux-x64.tar.gz -O - | gunzip | tar x \
+    && ln -s /usr/lib/jvm/jdk1.7.0_80 /usr/lib/jvm/jdk7
 
 # Set environment
 ENV UNDERLYING_SBT /usr/lib/bin/sbt
