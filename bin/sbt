@@ -22,8 +22,8 @@ set -eu
 WITNESS="$DRONE_DIR/.setup"
 if [[ ! -e "$WITNESS" ]]; then
   # store credentials and keys is disabled in scala-extras
-  # source "$SCRIPTS_DIR/store_credentials.sh"
-  # source "$SCRIPTS_DIR/setup_keys.sh"
+  source "$SCRIPTS_DIR/store_credentials.sh"
+  source "$SCRIPTS_DIR/setup_keys.sh"
   source "$SCRIPTS_DIR/setup_git_and_sbt.sh"
   source "$SCRIPTS_DIR/setup_cache.sh"
   touch $WITNESS \
