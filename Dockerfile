@@ -5,20 +5,29 @@ ENV JAVA_HOME /usr/lib/jvm/jdk8
 ENV PATH $PATH:$JAVA_HOME/bin
 
 RUN apk add --no-cache --virtual=build-dependencies wget ca-certificates \
-  && mkdir /usr/lib/jvm \
-  && cd /usr/lib/jvm
+  && mkdir /usr/lib/jvm
+
+WORKDIR /usr/lib/jvm
 
 # Install JDK8 as the default JDK
-RUN wget --no-check-certificate -c --header "Cookie: oraclelicense=accept-securebackup-cookie" http://download.oracle.com/otn-pub/java/jdk/8u151-b12/e758a0de34e24606bca991d704f6dcbf/jdk-8u151-linux-x64.tar.gz | gunzip | tar x \
+RUN wget --no-check-certificate -c --header "Cookie: oraclelicense=accept-securebackup-cookie" http://download.oracle.com/otn-pub/java/jdk/8u151-b12/e758a0de34e24606bca991d704f6dcbf/jdk-8u151-linux-x64.tar.gz -O - | gunzip | tar x \
+    && ls \
+    && test -e /usr/lib/jvm/jdk1.8.0_151 \
     && ln -s /usr/lib/jvm/jdk1.8.0_151 /usr/lib/jvm/jdk8
 
 # Install JDK7 as an optional JDK
-RUN wget --no-check-certificate --no-cookies --header "Cookie: oraclelicense=accept-securebackup-cookie" http://download.oracle.com/otn-pub/java/jdk/7u79-b15/jdk-7u79-linux-x64.tar.gz | gunzip | tar x \
+RUN wget http://ftp.osuosl.org/pub/funtoo/distfiles/oracle-java/jdk-7u80-linux-x64.tar.gz -O - | gunzip | tar x \
+    && ls \
+    && test -e /usr/lib/jvm/jdk1.7.0_80 \
     && ln -s /usr/lib/jvm/jdk1.7.0_80 /usr/lib/jvm/jdk7
 
 # Install JDK9 as an optional JDK
-RUN wget http://download.java.net/java/GA/jdk9/9/binaries/jdk-9+181_linux-x64_bin.tar.gz | gunzip | tar x \
-    && ln -s /usr/lib/jvm/jdk1.9.0_1 /usr/lib/jvm/jdk9
+RUN wget -c --header "Cookie: oraclelicense=accept-securebackup-cookie" http://download.oracle.com/otn-pub/java/jdk/9.0.1+11/jdk-9.0.1_linux-x64_bin.tar.gz -O - | gunzip | tar x \
+    && ls \
+    && test -e /usr/lib/jvm/jdk-9.0.1 \
+    && ln -s /usr/lib/jvm/jdk-9.0.1 /usr/lib/jvm/jdk9
+
+WORKDIR /
 
 # Set environment
 ENV UNDERLYING_SBT /usr/lib/bin/sbt
