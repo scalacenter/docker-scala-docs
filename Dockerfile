@@ -73,3 +73,4 @@ RUN rm -rf /root/.sbt
 # Save some space
 RUN rm -rf /tmp/*
 RUN mv /root/.coursier/* /drone/.coursier
+RUN rm -rf /root/.coursier
