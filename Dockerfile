@@ -1,4 +1,4 @@
-FROM frolvlad/alpine-glibc:alpine-3.4
+FROM frolvlad/alpine-glibc:alpine-3.7
 
 # Set environment
 ENV JAVA_HOME /usr/lib/jvm/jdk8
@@ -10,10 +10,10 @@ RUN apk add --no-cache --virtual=build-dependencies wget ca-certificates \
 WORKDIR /usr/lib/jvm
 
 # Install JDK8 as the default JDK
-RUN wget --no-check-certificate -c --header "Cookie: oraclelicense=accept-securebackup-cookie" http://download.oracle.com/otn-pub/java/jdk/8u151-b12/e758a0de34e24606bca991d704f6dcbf/jdk-8u151-linux-x64.tar.gz -O - | gunzip | tar x \
+RUN wget --no-check-certificate -c --header "Cookie: oraclelicense=accept-securebackup-cookie" http://download.oracle.com/otn-pub/java/jdk/8u162-b12/0da788060d494f5095bf8624735fa2f1/jdk-8u162-linux-x64.tar.gz -O - | gunzip | tar x \
     && ls \
-    && test -e /usr/lib/jvm/jdk1.8.0_151 \
-    && ln -s /usr/lib/jvm/jdk1.8.0_151 /usr/lib/jvm/jdk8
+    && test -e /usr/lib/jvm/jdk1.8.0_162 \
+    && ln -s /usr/lib/jvm/jdk1.8.0_162 /usr/lib/jvm/jdk8
 
 # Install JDK7 as an optional JDK
 RUN wget http://ftp.osuosl.org/pub/funtoo/distfiles/oracle-java/jdk-7u80-linux-x64.tar.gz -O - | gunzip | tar x \
@@ -22,10 +22,10 @@ RUN wget http://ftp.osuosl.org/pub/funtoo/distfiles/oracle-java/jdk-7u80-linux-x
     && ln -s /usr/lib/jvm/jdk1.7.0_80 /usr/lib/jvm/jdk7
 
 # Install JDK9 as an optional JDK
-RUN wget -c --header "Cookie: oraclelicense=accept-securebackup-cookie" http://download.oracle.com/otn-pub/java/jdk/9.0.1+11/jdk-9.0.1_linux-x64_bin.tar.gz -O - | gunzip | tar x \
+RUN wget -c --header "Cookie: oraclelicense=accept-securebackup-cookie" http://download.oracle.com/otn-pub/java/jdk/9.0.4+11/c2514751926b4512b076cc82f959763f/jdk-9.0.4_linux-x64_bin.tar.gz -O - | gunzip | tar x \
     && ls \
-    && test -e /usr/lib/jvm/jdk-9.0.1 \
-    && ln -s /usr/lib/jvm/jdk-9.0.1 /usr/lib/jvm/jdk9
+    && test -e /usr/lib/jvm/jdk-9.0.4 \
+    && ln -s /usr/lib/jvm/jdk-9.0.4 /usr/lib/jvm/jdk9
 
 WORKDIR /
 
@@ -42,6 +42,7 @@ RUN apk add --no-cache jq
 RUN apk add --no-cache ruby
 RUN apk add --no-cache ruby-bundler ruby-dev ruby-irb ruby-rdoc libatomic readline readline-dev \
     libxml2 libxml2-dev libxslt libxslt-dev zlib-dev zlib libffi-dev build-base nodejs
+RUN apk add --no-cache hugo
 
 # Install jekyll and sass just in case they are required
 RUN export PATH="/root/.rbenv/bin:$PATH"
