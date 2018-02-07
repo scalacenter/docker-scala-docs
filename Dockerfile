@@ -1,4 +1,4 @@
-FROM frolvlad/alpine-glibc:alpine-3.4
+FROM frolvlad/alpine-glibc:alpine-3.7
 
 # Set environment
 ENV JAVA_HOME /usr/lib/jvm/jdk8
@@ -42,6 +42,7 @@ RUN apk add --no-cache jq
 RUN apk add --no-cache ruby
 RUN apk add --no-cache ruby-bundler ruby-dev ruby-irb ruby-rdoc libatomic readline readline-dev \
     libxml2 libxml2-dev libxslt libxslt-dev zlib-dev zlib libffi-dev build-base nodejs
+RUN apk add --no-cache hugo
 
 # Install jekyll and sass just in case they are required
 RUN export PATH="/root/.rbenv/bin:$PATH"
