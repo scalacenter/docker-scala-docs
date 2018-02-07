@@ -22,10 +22,10 @@ RUN wget http://ftp.osuosl.org/pub/funtoo/distfiles/oracle-java/jdk-7u80-linux-x
     && ln -s /usr/lib/jvm/jdk1.7.0_80 /usr/lib/jvm/jdk7
 
 # Install JDK9 as an optional JDK
-RUN wget -c --header "Cookie: oraclelicense=accept-securebackup-cookie" http://download.oracle.com/otn-pub/java/jdk/9.0.1+11/jdk-9.0.1_linux-x64_bin.tar.gz -O - | gunzip | tar x \
+RUN wget -c --header "Cookie: oraclelicense=accept-securebackup-cookie" http://download.oracle.com/otn-pub/java/jdk/9.0.4+11/c2514751926b4512b076cc82f959763f/jdk-9.0.4_linux-x64_bin.tar.gz -O - | gunzip | tar x \
     && ls \
-    && test -e /usr/lib/jvm/jdk-9.0.1 \
-    && ln -s /usr/lib/jvm/jdk-9.0.1 /usr/lib/jvm/jdk9
+    && test -e /usr/lib/jvm/jdk-9.0.4 \
+    && ln -s /usr/lib/jvm/jdk-9.0.4 /usr/lib/jvm/jdk9
 
 WORKDIR /
 
