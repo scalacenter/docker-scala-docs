@@ -43,6 +43,7 @@ RUN apk add --no-cache ruby
 RUN apk add --no-cache ruby-bundler ruby-dev ruby-irb ruby-rdoc libatomic readline readline-dev \
     libxml2 libxml2-dev libxslt libxslt-dev zlib-dev zlib libffi-dev build-base nodejs
 RUN apk add --no-cache hugo
+RUN apk add --no-cache python2
 
 # Install jekyll and sass just in case they are required
 RUN export PATH="/root/.rbenv/bin:$PATH"
