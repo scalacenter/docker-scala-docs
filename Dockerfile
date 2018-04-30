@@ -43,6 +43,12 @@ RUN apk add --no-cache ruby
 RUN apk add --no-cache ruby-bundler ruby-dev ruby-irb ruby-rdoc libatomic readline readline-dev \
     libxml2 libxml2-dev libxslt libxslt-dev zlib-dev zlib libffi-dev build-base nodejs
 RUN apk add --no-cache hugo
+RUN apk add --no-cache clang
+RUN apk add --no-cache gc-dev
+RUN apk add --no-cache libunwind-dev
+RUN apk add --no-cache re2-dev
+RUN apk add --no-cache libc-dev
+RUN apk add --no-cache musl-dev
 
 # Install jekyll and sass just in case they are required
 RUN export PATH="/root/.rbenv/bin:$PATH"
@@ -64,12 +70,14 @@ RUN $UNDERLYING_SBT about -sbt-create -Dsbt.boot.properties=/sbt.boot
 
 # Remove dependencies
 RUN apk del build-dependencies
-RUN apk del build-base zlib-dev ruby-dev readline-dev libffi-dev libxml2-dev
 
 # Set up and warm up sbt
 RUN git clone https://github.com/scalaplatform/warm-sbt && cd warm-sbt && git checkout v0.3.0 && $UNDERLYING_SBT "+run" -Dsbt.boot.properties=/sbt.boot && cd .. && rm -rf warm-sbt
 RUN mv /root/.sbt/* /drone/.sbt
 RUN rm -rf /root/.sbt
+
+# Set up and test a Scala native project
+RUN $UNDERLYING_SBT -Dsbt.boot.properties=/sbt.boot new scala-native/scala-native.g8 --name=seed && cd seed && $UNDERLYING_SBT "run" -Dsbt.boot.properties=/sbt.boot && cd .. && rm -rf seed
 
 # Save some space
 RUN rm -rf /tmp/*
