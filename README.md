@@ -13,6 +13,6 @@ Platform's Drone CI](https://platform-ci.scala-lang.org) and
 
 ## Supported JDKs
 
-- JDK7 at `/usr/share/jvm/jdk7`.
 - JDK8 at `/usr/share/jvm/jdk8` (**default**).
-- JDK9 at `/usr/share/jvm/jdk9`.
+- JDK10 at `/usr/share/jvm/jdk10`.
+- JDK11 at `/usr/share/jvm/jdk11`.
