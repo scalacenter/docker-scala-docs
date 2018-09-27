@@ -71,6 +71,14 @@ RUN apk del build-dependencies
 # Set up and test a Scala native project
 #RUN $UNDERLYING_SBT -Dsbt.boot.properties=/sbt.boot new scala-native/scala-native.g8 --name=seed && cd seed && $UNDERLYING_SBT "run" -Dsbt.boot.properties=/sbt.boot && cd .. && rm -rf seed
 
+# Workaround to jdk10 and jdk11 runtime segfaults, see https://github.com/sgerrand/alpine-pkg-glibc/issues/75
+RUN wget "https://www.archlinux.org/packages/core/x86_64/zlib/download" -O /tmp/libz.tar.xz \
+    && mkdir -p /tmp/libz \
+    && tar -xf /tmp/libz.tar.xz -C /tmp/libz \
+    && cp /tmp/libz/usr/lib/libz.so.1.2.11 /usr/glibc-compat/lib \
+    && /usr/glibc-compat/sbin/ldconfig \
+    && rm -rf /tmp/libz /tmp/libz.tar.xz
+
 # Save some space
 RUN rm -rf /tmp/*
 #RUN mv /root/.coursier/* /drone/.coursier
