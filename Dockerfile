@@ -1,21 +1,21 @@
-FROM frolvlad/alpine-glibc:alpine-3.7
+FROM frolvlad/alpine-glibc:alpine-3.9_glibc-2.28
 
 # Set environment
 ENV JAVA_HOME /usr/lib/jvm/jdk8
 ENV PATH $PATH:$JAVA_HOME/bin
 
-RUN apk add --no-cache bash
-RUN apk add --no-cache --virtual=build-dependencies wget curl ca-certificates \
+RUN apk add --update --no-cache bash
+RUN apk add --no-cache --virtual=build-dependencies wget curl binutils ca-certificates \
   && mkdir /usr/lib/jvm
 
 RUN curl -sL https://github.com/shyiko/jabba/raw/master/install.sh | \
-    JABBA_COMMAND="install 1.8 -o /usr/lib/jvm/jdk8" bash
+    JABBA_COMMAND="install adopt@1.8.202-08 -o /usr/lib/jvm/jdk8" bash
 
 RUN curl -sL https://github.com/shyiko/jabba/raw/master/install.sh | \
-    JABBA_COMMAND="install 1.10 -o /usr/lib/jvm/jdk10" bash
+    JABBA_COMMAND="install adopt@1.10.0-2 -o /usr/lib/jvm/jdk10" bash
 
 RUN curl -sL https://github.com/shyiko/jabba/raw/master/install.sh | \
-    JABBA_COMMAND="install 1.11 -o /usr/lib/jvm/jdk11" bash
+    JABBA_COMMAND="install adopt@1.11.0-2 -o /usr/lib/jvm/jdk11" bash
 
 
 WORKDIR /
@@ -24,7 +24,15 @@ WORKDIR /
 ENV UNDERLYING_SBT /usr/lib/bin/sbt
 
 # Install packages
-RUN apk add --no-cache --virtual=build-dependencies wget ca-certificates
+RUN ZLIB_URL="https://archive.archlinux.org/packages/z/zlib/zlib-1%3A1.2.9-1-x86_64.pkg.tar.xz" \
+    && ZLIB_SHA256=bb0959c08c1735de27abf01440a6f8a17c5c51e61c3b4c707e988c906d3b7f67 \
+    && curl -Ls ${ZLIB_URL} -o /tmp/libz.tar.xz \
+    && echo "${ZLIB_SHA256}  /tmp/libz.tar.xz" | sha256sum -c - \
+    && mkdir /tmp/libz \
+    && tar -xf /tmp/libz.tar.xz -C /tmp/libz \
+    && mv /tmp/libz/usr/lib/libz.so* /usr/glibc-compat/lib \
+    && rm -rf /tmp/libz /tmp/libz.tar.xz
+
 RUN apk add --no-cache git
 RUN apk add --no-cache openssh
 RUN apk add --no-cache openssl
@@ -70,14 +78,6 @@ RUN apk del build-dependencies
 
 # Set up and test a Scala native project
 #RUN $UNDERLYING_SBT -Dsbt.boot.properties=/sbt.boot new scala-native/scala-native.g8 --name=seed && cd seed && $UNDERLYING_SBT "run" -Dsbt.boot.properties=/sbt.boot && cd .. && rm -rf seed
-
-# Workaround to jdk10 and jdk11 runtime segfaults, see https://github.com/sgerrand/alpine-pkg-glibc/issues/75
-RUN wget "https://www.archlinux.org/packages/core/x86_64/zlib/download" -O /tmp/libz.tar.xz \
-    && mkdir -p /tmp/libz \
-    && tar -xf /tmp/libz.tar.xz -C /tmp/libz \
-    && cp /tmp/libz/usr/lib/libz.so.1.2.11 /usr/glibc-compat/lib \
-    && /usr/glibc-compat/sbin/ldconfig \
-    && rm -rf /tmp/libz /tmp/libz.tar.xz
 
 # Save some space
 RUN rm -rf /tmp/*
