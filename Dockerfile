@@ -14,9 +14,13 @@ RUN curl -sL https://github.com/shyiko/jabba/raw/master/install.sh | \
 RUN curl -sL https://github.com/shyiko/jabba/raw/master/install.sh | \
     JABBA_COMMAND="install adopt@1.10.0-2 -o /usr/lib/jvm/jdk10" bash
 
-RUN curl -sL https://github.com/shyiko/jabba/raw/master/install.sh | \
-    JABBA_COMMAND="install adopt@1.11.0-2 -o /usr/lib/jvm/jdk11" bash
-
+RUN JDK11_URL="https://github.com/AdoptOpenJDK/openjdk11-binaries/releases/download/jdk11u-2019-02-20-11-53/OpenJDK11U-jdk_x64_linux_hotspot_2019-02-20-11-53.tar.gz" \
+    && JDK11_SHA256=35465cc7319ad4d790c540628033c14b10fa98f2006eb4dcaf886f169e5dd8e7 \
+    && curl -Ls ${JDK11_URL} -o /tmp/jdk11.tar.gz \
+    && echo "${JDK11_SHA256}  /tmp/jdk11.tar.gz" | sha256sum -c - \
+    && mkdir -p /usr/lib/jvm/jdk11 \
+    && tar -xf /tmp/jdk11.tar.gz -C /usr/lib/jvm/jdk11 --strip-components=1 \
+    && rm /tmp/jdk11.tar.gz
 
 WORKDIR /
 
